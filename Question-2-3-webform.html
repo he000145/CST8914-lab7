@@ -131,12 +131,15 @@
             validateInput('biography', 'Please tell us something about your history!');
             validateInput('gender', 'Please tell us your gender!');
             validateInput('accept_agbs', 'You must accept our terms and conditions!');
-            //activate first error fieldset
-            $('fieldset.errors').focus();
-          }
-          //move valid message out of validate processing, let it shows when there is no error.
-          else if ($.urlParam('validate') === null) {    
+            // if there is error, focus on first error fieldset, else show valid message.
+            if ($('fieldset.errors').length) {
+              //activate first error fieldset
+              $('fieldset.errors').first().focus();
+            }
+            //let it shows when there is no error.
+            else {    
               return alert('All inputs are valid.');
+            }
           }
         });
       }).call(void 0);</script>
