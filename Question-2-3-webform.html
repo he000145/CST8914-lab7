@@ -29,23 +29,24 @@
         <h1>Feedback form</h1>
     <form>
         <div class="control">
-          <label>Full name <span class="required">*</span></label><input id="name" name="name" type="text" />
+          <!-- link input with label, and also I can add required in input label to limit user must fill each one before submit. -->
+          <label for="name">Full name <span class="required">*</span></label><input id="name" name="name" type="text"/>
         </div>
         <div class="control">
-          <label>Biography</label><textarea id="biography" name="biography" type="text"></textarea>
+          <label for="biography">Biography<span class="required">*</span></label><textarea id="biography" name="biography" type="text"></textarea>
           <span>Include examples on your skills in JavaScript.</span>
         </div>
         
-          <div>Gender</div>
-          <div class="control">
-            <input id="gender_male" name="gender" type="radio" value="male" /><label>Male</label>
+          <div id="gender-label">Gender<span class="required">*</span></div>
+          <div class="control" role="radiogroup" aria-labelledby="gender-label">
+            <input id="gender_male" name="gender" type="radio" value="male" /><label for="gender_male">Male</label>
           </div>
           <div class="control">
-            <input id="gender_female" name="gender" type="radio" value="female" /><label>Female</label>
+            <input id="gender_female" name="gender" type="radio" value="female" /><label for="gender_female">Female</label>
           </div>
         
         <div class="control">
-          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1" /><label>I accept the terms and conditions</label>
+          <input id="accept_agbs" name="accept_agbs" type="checkbox" value="1"/><label for="accept_agbs">I accept the terms and conditions<span class="required">*</span></label>
         </div>
         <div class="control">
           <input name="validate" type="hidden" value="1" /><input type="submit" value="Register" />
@@ -76,7 +77,9 @@
       
           if ((value = $.urlParam(input)) === null) {
             if ($('fieldset.errors').length === 0) {
-              $('form').prepend('<fieldset class="errors"><legend>Errors</legend><ul></ul></fieldset>');
+              // $('form').prepend('<fieldset class="errors"><legend>Errors</legend><ul></ul></fieldset>');
+              // add tabindex 0 to let errors receive focus first.
+              $('form').prepend('<fieldset class="errors" tabindex="0"><legend>Errors</legend><ul></ul></fieldset>');
             }
       
             $referencedElement = null;
@@ -92,7 +95,11 @@
               $referencedElement = $input;
             }
       // R.G. hint: fix next line ;)
-            $error = $('<a>' + message + '</a>');
+            //create a variable to store the target id by let to avoid any relation with global variable Let each vairable link to it's current id.
+            let targetId = $referencedElement.attr('id');
+            // add targetId value into <a> href.
+            $error = $('<a href="#' + targetId + '" class="error-link">' + message + '</a>');
+            console.log($error);
             $error.click(function (e) {
               // If we rely on the link's href pointing to the input's ID, it doesn't trigger forms mode in screen readers
               $referencedElement.focus();
@@ -124,10 +131,12 @@
             validateInput('biography', 'Please tell us something about your history!');
             validateInput('gender', 'Please tell us your gender!');
             validateInput('accept_agbs', 'You must accept our terms and conditions!');
-      
-            if ($('.error').length === 0) {
+            //activate first error fieldset
+            $('fieldset.errors').focus();
+          }
+          //move valid message out of validate processing, let it shows when there is no error.
+          else if ($.urlParam('validate') === null) {    
               return alert('All inputs are valid.');
-            }
           }
         });
       }).call(void 0);</script>

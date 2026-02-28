@@ -192,6 +192,19 @@ article p {
 .pull-right {
   float: right;
 }
+.list-inline {
+  display: flex;
+  align-items: center;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.list-inline > li { margin-right: 18px; }
+.list-inline > li:last-child { margin-right: 0; }
+
+/* Push Search to the far right */
+.list-inline > li.search-item { margin-left: auto; }
 
   </style>
 </head>
@@ -200,28 +213,37 @@ article p {
   <header>
 
     <div class="container">
-      <h1 class="logo">The Funion</h1>
+      <h1 class="logo">The Funion</h1>          
+
+
       
       <!-- Maybe this could be improved with aria-activedescendant later? -->
       <nav class="menu">
-        <a href="#">Home</a>
+        <!-- make navi under a list to help screen reader, and delete tabindex="-1" for business to keep tab order correct. -->
+        <ul role="menubar" class="list-inline">
+          <li><a class="item" href="#" aria-posinset="1" aria-setsize="6"
+              role="menuitem">Home</a></li>
+          <li><a class="item" href="#" aria-posinset="2" aria-setsize="6"
+              role="menuitem">Politics</a></li>
+          <li><a class="item" href="#" aria-posinset="3" aria-setsize="6"
+              role="menuitem">Business</a></li>
+          <li><a class="item" href="#" aria-posinset="4" aria-setsize="6"
+              role="menuitem">Entertainment</a></li>
+          <li><a class="item" href="#" aria-posinset="5" aria-setsize="6"
+              role="menuitem">Sports</a></li>
+          <li class="search-item"><a href="#" class="btn-search item" aria-posinset="6" aria-setsize="6"
+              role="menuitem"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> </li>
+        </ul>
+        <!-- <a href="#">Home</a>
         <a href="#">Politics</a>
-        <a href="#" tabindex="-1">Business</a>
+        <a href="#" tabindex="-1">Business</a> 
         <a href="#">Entertainment</a>
         <a href="#">Sports</a>
-        <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a> 
+        <a href="#" class="btn-search pull-right"><img src="https://raw.githubusercontent.com/udacity/ud891/2de2a0688c68809a3b453db3a24b1a59e8401459/lesson2-focus/02-dom-order/images/search.svg" alt="Search" />Search</a>  -->
 
       </nav>
     </div>
   </header>
-  <div class="newsletter">
-    <div class="container">
-      <h3>Like the Funion? Consider joining our newsletter!</h3>
-      <input type="text">
-      <button type="button" onfocus="getFocus()">Sign up</button></div>
-      
-    </div>
-  </div>
   <main class="container">
     <h2 class="offscreen">Top story</h2>
     <article class="main-story">
@@ -239,11 +261,13 @@ article p {
     <div class="side-by-side">
       <div class="column">
         <div class="tier-header">
-          <h2 tabindex="0">In the news</h2>
+          <!-- <h2 tabindex="0">In the news</h2> delete tabindex="0" to avoid this part read first. -->
+          <h2>In the news</h2>
         </div>
         <article>
           <h3 class="headline">Bee wonders if maybe everyone else is a drone and he's the only one who has it "figured out."</h3>
-          <p><a href="#" tabindex="1"><b>Read More</b></a></p>
+          <!-- <p><a href="#" tabindex="1"><b>Read More</b></a></p> delete tabindex="1" it's useless. -->
+          <p><a href="#"><b>Read More</b></a></p>
           <img src="https://github.com/udacity/ud891/blob/gh-pages/lesson2-focus/02-dom-order/images/bee.jpg?raw=true" alt="A bee on top of a flower" />
         </article>
       </div>
@@ -286,10 +310,16 @@ article p {
     </div>
     
   </main>
-  <!--   stuff can be added here :)
-  <footer>
+  <!-- put newsletter under footer part to let footer part tab at last.  -->
+  <footer class="newsletter">
+    <!-- <div class="newsletter"> -->
+      <div class="container">
+      <h3>Like the Funion? Consider joining our newsletter!</h3>
+      <input type="text">
+      <button type="button" onfocus="getFocus()">Sign up</button></div>
+      </div>
+    <!-- </div> -->
   </footer>
-  -->
   
   <script>
     function getFocus() {
