@@ -132,7 +132,7 @@
             validateInput('gender', 'Please tell us your gender!');
             validateInput('accept_agbs', 'You must accept our terms and conditions!');
             // if there is error, focus on first error fieldset, else show valid message.
-            console.log($('fieldset.errors').length);
+            console.log($('fieldset.errors'),"error fieldset");
             if ($('fieldset.errors').length) {
               //activate first error fieldset
               $('fieldset.errors').first().focus();
